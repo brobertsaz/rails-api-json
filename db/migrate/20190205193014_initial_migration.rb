@@ -319,13 +319,6 @@ class InitialMigration < ActiveRecord::Migration[5.2]
       t.datetime "updated_at", null: false
     end
 
-    create_table "signups", force: :cascade do |t|
-      t.string "email"
-      t.string "phone"
-      t.datetime "created_at", null: false
-      t.datetime "updated_at", null: false
-    end
-
     create_table "sponsorships", force: :cascade do |t|
       t.bigint "bill_id"
       t.bigint "member_id"
