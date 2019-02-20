@@ -6,4 +6,9 @@ Rails.application.routes.draw do
       resource :notifications, only: %i[create show]
     end
   end
+
+  post 'refresh', controller: :refresh, action: :create
+  post 'signin', controller: :signin, action: :create
+  post 'signup', controller: :signup, action: :create
+  delete 'signin', controller: :signin, action: :destroy
 end
