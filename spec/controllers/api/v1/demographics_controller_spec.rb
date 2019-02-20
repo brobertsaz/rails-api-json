@@ -43,6 +43,24 @@ RSpec.describe Api::V1::DemographicsController, type: :controller do
         expect(user.voted_in_2016).to eq valid_attributes[:election_2016]
         expect(user.birth_year).to eq valid_attributes[:birth_year]
       end
+
+      it 'renders a success JSON response' do
+        request.cookies[JWTSessions.access_cookie] = @tokens[:access]
+        request.headers[JWTSessions.csrf_header] = @tokens[:csrf]
+        put :update, params: { id: user.id, user: valid_attributes }
+        expect(response).to have_http_status(:ok)
+        expect(response.content_type).to eq('application/json')
+      end
+    end
+
+    context 'with invalid params' do
+      it 'renders a JSON response with errors' do
+        request.cookies[JWTSessions.access_cookie] = @tokens[:access]
+        request.headers[JWTSessions.csrf_header] = @tokens[:csrf]
+        put :update, params: { id: user.id, user: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.content_type).to eq('application/json')
+      end
     end
   end
 end
