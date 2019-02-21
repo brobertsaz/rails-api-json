@@ -1,0 +1,15 @@
+{
+  "data" : {
+    "type" : "committee",
+    "attributes" : {
+      "id" : { "type" : "integer" },
+      "name" :  { "type" : "string" },
+      "bioguide_id" : { "type" : "string" }
+    },
+    "relationships" : {
+      "visible_bills" : {
+                "data" : { "type" :  "array" }
+            }
+        }
+    }
+}

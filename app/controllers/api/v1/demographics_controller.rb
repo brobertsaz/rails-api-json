@@ -1,6 +1,6 @@
 class Api::V1::DemographicsController < ApplicationController
   before_action :authorize_access_request!
-  
+
   def update
     current_user.gender         = Gender.find_by(name: safe_params[:gender])
     current_user.race           = Race.find_by(name: safe_params[:race])

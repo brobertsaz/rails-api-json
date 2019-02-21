@@ -19,6 +19,7 @@ RSpec.describe Api::V1::CommitteesController, type: :controller do
       request.headers[JWTSessions.csrf_header] = @tokens[:csrf]
       get :show, params: { id: committee.id }
       expect(response).to be_successful
+      expect(response).to match_response_schema('committee')
     end
   end
 end
