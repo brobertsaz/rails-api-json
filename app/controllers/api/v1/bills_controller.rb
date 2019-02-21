@@ -7,19 +7,19 @@ class Api::V1::BillsController < ApplicationController
 
   def index
     @query = if params[:filter] == 'following'
-           current_user.favorite_bills.ransack(params[:q])
-         else
-           Bill.visible.ransack(params[:q])
-         end
+               current_user.favorite_bills.ransack(params[:q])
+             else
+               Bill.visible.ransack(params[:q])
+             end
 
     @query.sorts = ['introduced_on desc'] if @query.sorts.empty?
     @bills = @query.result
 
-    render json: @bills
+    render json: BillSerializer.new(@bills).serializable_hash
   end
 
   def show
-    render json: @bill
+    render json: BillSerializer.new(@bill).serializable_hash
   end
 
   def favorite
@@ -33,7 +33,7 @@ class Api::V1::BillsController < ApplicationController
   def cosponsors
     @cosponsors = @bill.cosponsors.ordered
 
-    render json: @cosponsors
+    render json: MemberSerializer.new(@cosponsors).serializable_hash
   end
 
   private

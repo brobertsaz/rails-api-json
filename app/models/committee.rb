@@ -9,6 +9,7 @@ class Committee < ApplicationRecord
   has_and_belongs_to_many :bills
   has_many :committee_memberships
   has_many :members, through: :committee_memberships
+  has_and_belongs_to_many :visible_bills, -> { where(is_visible: true) }, class_name: 'Bill'
 
   # Class Methods
   def self.sync

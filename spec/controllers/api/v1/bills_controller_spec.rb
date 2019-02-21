@@ -17,14 +17,14 @@ RSpec.describe Api::V1::BillsController, type: :controller do
     it 'returns successful response' do
       get :index
       expect(response).to be_successful
-      expect(json.size).to eq 5
+      expect(json.dig('data').count).to eq 5
     end
 
     it 'filters favorites' do
       user.favorites.create(favoritable: bills.last)
       get :index, params: { filter: 'following' }
       expect(response).to be_successful
-      expect(json.size).to eq 1
+      expect(json.dig('data').count).to eq 1
     end
   end
 
@@ -71,7 +71,7 @@ RSpec.describe Api::V1::BillsController, type: :controller do
       request.headers[JWTSessions.csrf_header] = @tokens[:csrf]
       get :cosponsors, params: { id: bill.id }
       expect(response).to be_successful
-      expect(json.count).to eq 1
+      expect(json.dig('data').count).to eq 1
     end
   end
 end
