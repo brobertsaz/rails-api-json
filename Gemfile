@@ -16,6 +16,7 @@ gem 'rails', '~> 5.2.2'# Use postgresql as the database for Active Record
 gem 'ransack'
 gem 'redis', '~> 4.0'
 gem 'sentry-raven'
+gem 'sidekiq'
 
 
 group :development, :test do

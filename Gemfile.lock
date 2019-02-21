@@ -64,6 +64,7 @@ GEM
       xpath (~> 3.2)
     coderay (1.1.2)
     concurrent-ruby (1.1.4)
+    connection_pool (2.2.2)
     coolline (0.5.0)
       unicode_utils (~> 1.4)
     crass (1.0.4)
@@ -145,6 +146,8 @@ GEM
     public_suffix (3.0.3)
     rack (2.0.6)
     rack-cors (1.0.2)
+    rack-protection (2.0.5)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.2.2)
@@ -213,6 +216,11 @@ GEM
     ruby_dep (1.5.0)
     sentry-raven (2.9.0)
       faraday (>= 0.7.6, < 1.0)
+    sidekiq (5.2.5)
+      connection_pool (~> 2.2, >= 2.2.2)
+      rack (>= 1.5.0)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 5)
     simplecov (0.16.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -271,6 +279,7 @@ DEPENDENCIES
   rspec-rails
   rubocop
   sentry-raven
+  sidekiq
   simplecov
   spring
   spring-watcher-listen (~> 2.0.0)
