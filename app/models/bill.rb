@@ -4,11 +4,11 @@ class Bill < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # Gems
   include SyncCache
   has_one_attached :banner
-  # has_attached_file :banner, styles: { large: 'x500', medium: '500x250#', thumb: '400x100#' }
   extend FriendlyId
   friendly_id :number, use: :slugged
 
   # Associations
+  belongs_to :congress
   belongs_to :topic, optional: true
   has_many :sponsorships, dependent: :destroy
   has_many :sponsors, through: :sponsorships, source: :member
@@ -33,24 +33,34 @@ class Bill < ApplicationRecord # rubocop:disable Metrics/ClassLength
   scope :visible, -> { where(is_visible: true) }
 
   # Validations
-  validates :number, uniqueness: { case_sensitive: false }
+  validates :number, uniqueness: { case_sensitive: false, scope: :congress_id }
   validates :title, presence: true
   validates :banner, blob: { content_type: :image }
 
   # Callbacks
   before_validation :sanitize_number
-  before_save :send_notifications
+  # before_save :send_notifications
 
   # Class Methods
   def self.sync
     sync_started!
 
     data = ProPublica::Bills.new.recent.select(&:relevant?)
-    # notice = SlackNotice::Bills.new
 
     data.each do |record|
-      bill = where(number: record.number.delete('.')).first_or_initialize
-      bill.update!(record.attributes)
+      congress = Congress.where(number: record.congress).first_or_create
+      bill     = congress.bills.where(number: record.number.delete('.')).first_or_initialize
+
+      %w[number title summary full_text_url].each do |field|
+        bill.send "#{field}=".to_sym, record.attributes[field.to_sym]
+      end
+
+      %w[introduced_on house_voted_on senate_voted_on enacted_on vetoed_on].each do |field|
+        bill.send "#{field}=".to_sym, record.attributes[field.to_sym] if bill.send(field).nil?
+      end
+
+      bill.save!
+      bill.send_notifications
 
       next unless bill.deep_scraped_on.blank?
 
@@ -74,7 +84,6 @@ class Bill < ApplicationRecord # rubocop:disable Metrics/ClassLength
     end
 
     sync_completed!
-    # notice.process
   end
 
   # Methods
@@ -111,7 +120,7 @@ class Bill < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def president_state
     return 'passed' if enacted_on? && !vetoed_on?
-    return 'failed' if enacted_on? && vetoed_on?
+    return 'failed' if !enacted_on? && vetoed_on?
 
     nil
   end
@@ -132,6 +141,22 @@ class Bill < ApplicationRecord # rubocop:disable Metrics/ClassLength
     @downvote_count ||= positions.where('position < 0').count
   end
 
+  def upvote_percentage
+    return if positions.empty?
+
+    @upvote_percentage ||= ((positions.where('position > 0').count / total_positions.to_f) * 100).round.to_s + '%'
+  end
+
+  def downvote_percentage
+    return if positions.empty?
+
+    @downvote_percentage ||= ((positions.where('position < 0').count / total_positions.to_f) * 100).round.to_s + '%'
+  end
+
+  def total_positions
+    positions.where('position < 0').count + positions.where('position > 0').count
+  end
+
   def house_vote_breakdown(position, party)
     votes.where(chamber_id: 1, position: position)
          .joins(:member).where('party = ?', party)
@@ -144,18 +169,18 @@ class Bill < ApplicationRecord # rubocop:disable Metrics/ClassLength
          .count
   end
 
+  def send_notifications
+    { bill_house_change: 'house_result', bill_senate_change: 'senate_result',
+      bill_enacted: 'enacted_on', bill_vetoed: 'vetoed_on' }.each do |kind, column|
+      NotificationWorker.perform_in(30.seconds, kind, 'Bill', id) if changes.key?(column)
+    end
+  end
+
   private
 
   def sanitize_number
     return unless number
 
     self.number = number.delete('.')
-  end
-
-  def send_notifications
-    { bill_house_change: 'house_result', bill_senate_change: 'senate_result',
-      bill_enacted: 'enacted_on', bill_vetoed: 'vetoed_on' }.each do |kind, column|
-      NotificationWorker.perform_in(30.seconds, kind, 'Bill', id) if changes.key?(column)
-    end
   end
 end

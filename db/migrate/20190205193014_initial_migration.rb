@@ -139,6 +139,8 @@ class InitialMigration < ActiveRecord::Migration[5.2]
       t.string "slug"
       t.bigint "topic_id"
       t.boolean "is_visible", default: true
+      t.bigint "congress_id"
+      t.index ["congress_id"], name: "index_bills_on_congress_id"
       t.index ["topic_id"], name: "index_bills_on_topic_id"
     end
 
@@ -185,6 +187,12 @@ class InitialMigration < ActiveRecord::Migration[5.2]
     create_table "committees", force: :cascade do |t|
       t.string "name"
       t.string "bioguide_id"
+      t.datetime "created_at", null: false
+      t.datetime "updated_at", null: false
+    end
+
+    create_table "congresses", force: :cascade do |t|
+      t.integer "number"
       t.datetime "created_at", null: false
       t.datetime "updated_at", null: false
     end
@@ -397,6 +405,7 @@ class InitialMigration < ActiveRecord::Migration[5.2]
     add_foreign_key "alerts", "alert_categories"
     add_foreign_key "app_tokens", "users"
     add_foreign_key "bills", "topics"
+    add_foreign_key "bills", "congresses"
     add_foreign_key "committee_memberships", "committees"
     add_foreign_key "committee_memberships", "members"
     add_foreign_key "favorites", "users"

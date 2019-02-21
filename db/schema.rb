@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_13_172457) do
+ActiveRecord::Schema.define(version: 2019_02_05_193014) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,6 +152,8 @@ ActiveRecord::Schema.define(version: 2019_02_13_172457) do
     t.string "slug"
     t.bigint "topic_id"
     t.boolean "is_visible", default: true
+    t.bigint "congress_id"
+    t.index ["congress_id"], name: "index_bills_on_congress_id"
     t.index ["topic_id"], name: "index_bills_on_topic_id"
   end
 
@@ -338,13 +340,6 @@ ActiveRecord::Schema.define(version: 2019_02_13_172457) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "signups", force: :cascade do |t|
-    t.string "email"
-    t.string "phone"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "sponsorships", force: :cascade do |t|
     t.bigint "bill_id"
     t.bigint "member_id"
@@ -422,6 +417,7 @@ ActiveRecord::Schema.define(version: 2019_02_13_172457) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "alerts", "alert_categories"
   add_foreign_key "app_tokens", "users"
+  add_foreign_key "bills", "congresses"
   add_foreign_key "bills", "topics"
   add_foreign_key "committee_memberships", "committees"
   add_foreign_key "committee_memberships", "members"

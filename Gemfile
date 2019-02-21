@@ -15,9 +15,10 @@ gem 'bcrypt', '~> 3.1.7'
 # Use ActiveStorage variant
 gem 'mini_magick', '~> 4.8'
 
+gem 'activestorage-validator'
 gem 'bootsnap', '>= 1.1.0', require: false
-# Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
+gem 'ransack'
 gem 'sentry-raven'
 gem 'friendly_id'
 gem 'jwt_sessions'

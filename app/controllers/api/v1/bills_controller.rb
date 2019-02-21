@@ -1,0 +1,49 @@
+# frozen_string_literal: true
+
+class Api::V1::BillsController < ApplicationController
+  before_action :authorize_access_request!
+  before_action :set_resource, only: %i[show favorite cosponsors]
+  # after_action :track_action
+
+  def index
+    @query = if params[:filter] == 'following'
+           current_user.favorite_bills.ransack(params[:q])
+         else
+           Bill.visible.ransack(params[:q])
+         end
+
+    @query.sorts = ['introduced_on desc'] if @query.sorts.empty?
+    @bills = @query.result
+
+    render json: @bills
+  end
+
+  def show
+    render json: @bill
+  end
+
+  def favorite
+    if current_user.favorites.exists?(favoritable: @bill)
+      current_user.favorites.find_by(favoritable: @bill).destroy
+    else
+      current_user.favorites.create(favoritable: @bill)
+    end
+  end
+
+  def cosponsors
+    @cosponsors = @bill.cosponsors.ordered
+
+    render json: @cosponsors
+  end
+
+  private
+
+  # def track_action
+  #   ahoy.authenticate(current_user) if current_user
+  #   ahoy.track "Bills #{action_name}", request.filtered_parameters
+  # end
+
+  def set_resource
+    @bill = Bill.friendly.find(params[:id])
+  end
+end

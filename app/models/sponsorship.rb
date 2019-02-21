@@ -9,7 +9,7 @@ class Sponsorship < ApplicationRecord
   enum kind: %i[primary cosponsor]
 
   # Callbacks
-  after_create :send_notifications
+  # after_create :send_notifications
 
   # Methods
   private
