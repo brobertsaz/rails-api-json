@@ -11,11 +11,9 @@ Rails.application.routes.draw do
         resource :position, only: %i[create destroy]
       end
       resources :committees, only: :show
+      resources :users, only: :create
     end
   end
 
-  post 'refresh', controller: :refresh, action: :create
-  post 'signin', controller: :signin, action: :create
-  post 'signup', controller: :signup, action: :create
-  delete 'signin', controller: :signin, action: :destroy
+  post 'user_token' => 'user_token#create'
 end

@@ -1,5 +1,5 @@
 class Api::V1::DemographicsController < ApplicationController
-  before_action :authorize_access_request!
+  before_action :authenticate_user
 
   def update
     current_user.gender         = Gender.find_by(name: safe_params[:gender])

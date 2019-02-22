@@ -1,41 +1,33 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::DemographicsController, type: :controller do
+RSpec.describe Api::V1::DemographicsController, type: :request do
   let(:user) { create :user }
-  let!(:race) { create :race}
-  let!(:gender) { create :gender}
-  let!(:affiliation) { create :affiliation}
+  let!(:race) { create :race }
+  let!(:gender) { create :gender }
+  let!(:affiliation) { create :affiliation }
 
 
   let(:valid_attributes) {
-    { 
+    {
       gender: 'Woman',
       race: 'Other',
       affiliation: 'Democrat',
       election_2016: true,
-      birth_year: 1995 
+      birth_year: 1995
     }
   }
 
   let(:invalid_attributes) {
-    {  
+    {
       election_2016: true,
-      birth_year: 1995 
+      birth_year: 1995
     }
   }
-
-  before do
-    payload = { user_id: user.id }
-    session = JWTSessions::Session.new(payload: payload)
-    @tokens = session.login
-  end
 
   describe "PUT #update" do
     context 'with valid params' do
       it 'updates demographics' do
-        request.cookies[JWTSessions.access_cookie] = @tokens[:access]
-        request.headers[JWTSessions.csrf_header] = @tokens[:csrf]
-        put :update, params: { id: user.id, user: valid_attributes }
+        put '/api/v1/demographics', params: { id: user.id, user: valid_attributes }, headers: auth_headers(user)
         user.reload
         expect(user.gender.name).to eq valid_attributes[:gender]
         expect(user.race.name).to eq valid_attributes[:race]
@@ -45,9 +37,7 @@ RSpec.describe Api::V1::DemographicsController, type: :controller do
       end
 
       it 'renders a success JSON response' do
-        request.cookies[JWTSessions.access_cookie] = @tokens[:access]
-        request.headers[JWTSessions.csrf_header] = @tokens[:csrf]
-        put :update, params: { id: user.id, user: valid_attributes }
+        put '/api/v1/demographics', params: { id: user.id, user: valid_attributes }, headers: auth_headers(user)
         expect(response).to have_http_status(:ok)
         expect(response.content_type).to eq('application/json')
       end
@@ -55,9 +45,7 @@ RSpec.describe Api::V1::DemographicsController, type: :controller do
 
     context 'with invalid params' do
       it 'renders a JSON response with errors' do
-        request.cookies[JWTSessions.access_cookie] = @tokens[:access]
-        request.headers[JWTSessions.csrf_header] = @tokens[:csrf]
-        put :update, params: { id: user.id, user: invalid_attributes }
+        put '/api/v1/demographics', params: { id: user.id, user: invalid_attributes }, headers: auth_headers(user)
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to eq('application/json')
       end

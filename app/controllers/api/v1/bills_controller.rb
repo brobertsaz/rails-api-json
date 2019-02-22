@@ -1,7 +1,5 @@
-# frozen_string_literal: true
-
 class Api::V1::BillsController < ApplicationController
-  before_action :authorize_access_request!
+  before_action :authenticate_user
   before_action :set_resource, only: %i[show favorite cosponsors]
   # after_action :track_action
 
