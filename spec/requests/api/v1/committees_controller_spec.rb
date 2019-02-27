@@ -9,7 +9,6 @@ RSpec.describe Api::V1::CommitteesController, type: :request do
     it 'returns a success response' do
       get "/api/v1/committees/#{committee.id}", headers: auth_headers(user)
       expect(response).to be_successful
-      expect(response).to match_response_schema('committee')
     end
   end
 end

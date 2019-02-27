@@ -27,7 +27,6 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'jazz_fingers'
-  gem 'json-schema'
   gem 'mock_redis'
   gem 'rspec-rails'
   gem 'simplecov'
