@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         resource :position, only: %i[create destroy]
       end
       resources :committees, only: :show
+      resource :dashboard, only: :show
       resources :users, only: :create
     end
   end
