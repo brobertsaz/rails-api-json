@@ -1,19 +1,18 @@
 class Api::V1::BillsController < ApplicationController
   before_action :authenticate_user
   before_action :set_resource, only: %i[show favorite cosponsors]
-  # after_action :track_action
 
   def index
-    @query = if params[:filter] == 'following'
-               current_user.favorite_bills.ransack(params[:q])
-             else
-               Bill.visible.ransack(params[:q])
-             end
+    query = if params[:filter] == 'following'
+              current_user.favorite_bills.ransack(params[:q])
+            else
+              Bill.visible.ransack(params[:q])
+            end
 
-    @query.sorts = ['introduced_on desc'] if @query.sorts.empty?
-    @bills = @query.result
+    query.sorts = ['introduced_on desc'] if query.sorts.empty?
+    bills = query.result
 
-    render json: BillSerializer.new(@bills).serializable_hash
+    render json: BillSerializer.new(bills).serializable_hash
   end
 
   def show
@@ -35,11 +34,6 @@ class Api::V1::BillsController < ApplicationController
   end
 
   private
-
-  # def track_action
-  #   ahoy.authenticate(current_user) if current_user
-  #   ahoy.track "Bills #{action_name}", request.filtered_parameters
-  # end
 
   def set_resource
     @bill = Bill.friendly.find(params[:id])

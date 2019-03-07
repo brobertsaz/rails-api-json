@@ -24,7 +24,21 @@ class MemberSerializer
              :in_office,
              :facebook_photo_scraped_at,
              :facebook_photo_scrape_status,
-             :bio
+             :bio,
+             :state,
+             :bills,
+             :votes
 
+  def bills
+    object.bills.where(is_visible: true).map do |bill|
+      BillsSerializer.new(bill)
+    end
+  end
+
+  def votes
+    object.votes.map do |vote|
+      VotesSerializer.new(vote)
+    end
+  end
 
 end

@@ -12,6 +12,9 @@ Rails.application.routes.draw do
       end
       resources :committees, only: :show
       resource :dashboard, only: :show
+      resources :members, only: %i[index show] do
+        post :favorite, on: :member
+      end
       resources :users, only: :create
     end
   end
