@@ -3,16 +3,13 @@ class Api::V1::BillsController < ApplicationController
   before_action :set_resource, only: %i[show favorite cosponsors]
 
   def index
-    query = if params[:filter] == 'following'
-              current_user.favorite_bills.ransack(params[:q])
+    bills = if params[:filter] == 'following'
+              current_user.favorite_bills
             else
-              Bill.visible.ransack(params[:q])
+              Bill.visible
             end
 
-    query.sorts = ['introduced_on desc'] if query.sorts.empty?
-    bills = query.result
-
-    render json: BillSerializer.new(bills).serializable_hash
+    render json: BillSerializer.new(bills.ordered).serializable_hash
   end
 
   def show

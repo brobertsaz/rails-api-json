@@ -31,6 +31,7 @@ class Bill < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # Scopes
   scope :special, -> { where(feature_state: %i[featured highlighted]).order('feature_position asc') }
   scope :visible, -> { where(is_visible: true) }
+  scope :ordered, -> { order('introduced_on desc') }
 
   # Validations
   validates :number, uniqueness: { case_sensitive: false, scope: :congress_id }

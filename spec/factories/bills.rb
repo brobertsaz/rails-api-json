@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :bill do
     congress
-    number { Faker::Number.number(5) }
+    number { Faker::Number.number(15) }
     title { Faker::Quote.famous_last_words }
     summary { Faker::Hipster.paragraph(2) }
     full_text_url { Faker::Internet.url }

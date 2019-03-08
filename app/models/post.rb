@@ -27,7 +27,7 @@ class Post < ApplicationRecord
   validate  :validate_youtube_url, if: :video?
   validates :image, blob: { content_type: :image }
 
-  ransacker :kind, formatter: proc { |v| kinds[v] }
+  # ransacker :kind, formatter: proc { |v| kinds[v] }
 
   # Methods
   def status
