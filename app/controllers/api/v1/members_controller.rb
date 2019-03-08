@@ -3,15 +3,13 @@ class Api::V1::MembersController < ApplicationController
   before_action :set_resource, only: %i[show favorite]
 
   def index
-    query = if params[:filter] == 'following'
-              current_user.favorite_members.in_office.ordered.ransack(params[:q])
+    members = if params[:filter] == 'following'
+              current_user.favorite_members.in_office.ordered
             elsif params[:filter] == 'state'
-              Member.where(state: current_user.state).in_office.ordered.ransack(params[:q])
+              Member.where(state: current_user.state).in_office.ordered
             else
-              Member.ordered.in_office.ransack(params[:q])
+              Member.ordered.in_office
             end
-
-    members = query.result
 
     render json: MemberSerializer.new(members).serializable_hash
   end

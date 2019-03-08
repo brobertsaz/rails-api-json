@@ -18,6 +18,7 @@ gem 'ransack'
 gem 'redis', '~> 4.0'
 gem 'sentry-raven'
 gem 'sidekiq'
+gem 'validate_url'
 
 
 group :development, :test do
