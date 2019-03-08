@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       resources :committees, only: :show
 
       resource :dashboard, only: :show
+      resource :my_scope, only: :show
 
       resources :members, only: %i[index show] do
         post :favorite, on: :member

@@ -29,4 +29,5 @@ class BillSerializer
              :topic_id,
              :is_visible,
              :congress_id
+
 end

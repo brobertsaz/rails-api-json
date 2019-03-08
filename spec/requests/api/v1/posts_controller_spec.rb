@@ -54,16 +54,20 @@ RSpec.describe Api::V1::PostsController, type: :request do
     let(:article_post) { create :post }
 
     it 'favorites a post' do
-      post "/api/v1/posts/#{article_post.id}/favorite", headers: auth_headers(user)
+      expect {
+        post "/api/v1/posts/#{article_post.id}/favorite", headers: auth_headers(user)
+      }.to change { user.favorites.count }.by(1)
       expect(response).to be_successful
-      expect(user.favorites.count).to eq 1
+
     end
 
     it 'unfavorites a post' do
       user.favorites.create(favoritable: article_post)
-      post "/api/v1/posts/#{article_post.id}/favorite", headers: auth_headers(user)
+      expect {
+        post "/api/v1/posts/#{article_post.id}/favorite", headers: auth_headers(user)
+      }.to change { user.favorites.count }.by(-1)
       expect(response).to be_successful
-      expect(user.favorites.count).to eq 0
+
     end
   end
 
