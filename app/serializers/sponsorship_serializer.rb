@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SponsorshipSerializer
   include FastJsonapi::ObjectSerializer
   attributes :id, :kind

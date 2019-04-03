@@ -2,6 +2,7 @@ require 'simplecov'
 SimpleCov.start 'rails'
 require 'capybara/rspec'
 require 'rails_helper'
+require 'rspec/json_expectations'
 require_relative 'support/json_helper'
 require_relative 'support/auth_helper'
 
@@ -9,6 +10,12 @@ require_relative 'support/auth_helper'
 RSpec.configure do |config|
   config.include JsonHelper
   config.include AuthHelper
+
+  def set_graphql_type
+    self.let(:subject) do
+      self.described_class
+    end
+  end
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

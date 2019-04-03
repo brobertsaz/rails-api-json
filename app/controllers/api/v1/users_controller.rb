@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::UsersController < ApplicationController
   def create
     user = User.new(safe_params)

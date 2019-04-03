@@ -7,7 +7,7 @@ gem 'activestorage-validator'
 gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'fast_jsonapi'
-gem 'friendly_id'
+gem 'graphql', '1.8.13'
 gem 'jwt'
 gem 'knock'
 gem 'mini_magick', '~> 4.8'
@@ -29,6 +29,7 @@ group :development, :test do
   gem 'faker'
   gem 'jazz_fingers'
   gem 'mock_redis'
+  gem 'rspec-graphql_matchers'
   gem 'rspec-rails'
   gem 'simplecov'
 end
@@ -36,7 +37,9 @@ end
 gem 'dotenv-rails', groups: [:development, :test, :production]
 
 group :development do
+  gem 'graphiql-rails'
   gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'rspec-json_expectations'
   gem 'rubocop'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'

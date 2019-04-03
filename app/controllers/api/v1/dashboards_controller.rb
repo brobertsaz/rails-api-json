@@ -14,5 +14,4 @@ class Api::V1::DashboardsController < ApplicationController
 
     render json: BillSerializer.new(bills).serializable_hash
   end
-
 end

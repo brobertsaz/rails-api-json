@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BillSerializer
   include FastJsonapi::ObjectSerializer
   attributes :id,
@@ -29,5 +31,4 @@ class BillSerializer
              :topic_id,
              :is_visible,
              :congress_id
-
 end

@@ -10,7 +10,7 @@ class Api::V1::PostsController < ApplicationController
             elsif params[:kind]
               Post.actually_published.ordered.where(kind: params[:kind])
             else
-             Post.actually_published.ordered
+              Post.actually_published.ordered
             end
 
     render json: PostSerializer.new(posts).serializable_hash

@@ -1,10 +1,15 @@
 Rails.application.routes.draw do
+
   namespace :api do
+    post '/graphql', to: 'graphql#execute'
+
+    if Rails.env.development?
+      mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: 'graphql#execute'
+    end
+
     namespace :v1 do
       resources :sessions, :users, only: :create
-
       resource :demographics, only: :update
-
       resource :notifications, only: %i[create show]
 
       resources :bills, only: %i[index show] do
@@ -15,7 +20,6 @@ Rails.application.routes.draw do
       end
 
       resources :committees, only: :show
-
       resource :dashboard, only: :show
       resource :my_scope, only: :show
 

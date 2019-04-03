@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MemberSerializer
   include FastJsonapi::ObjectSerializer
   attributes :id,
@@ -40,5 +42,4 @@ class MemberSerializer
       VotesSerializer.new(vote)
     end
   end
-
 end

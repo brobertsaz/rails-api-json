@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class VoteSerializer
   include FastJsonapi::ObjectSerializer
   attributes :position
