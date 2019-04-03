@@ -8,6 +8,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'fast_jsonapi'
 gem 'graphql', '1.8.13'
+gem 'graphql-preload', '~> 1.0.4'
 gem 'jwt'
 gem 'knock'
 gem 'mini_magick', '~> 4.8'

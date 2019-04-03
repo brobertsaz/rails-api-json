@@ -13,7 +13,7 @@ Rspec.describe Mutations::SignInUser, type: :request do
                 password: "#{user.password}"
               }
             ) {
-              token
+              jwt
               user {
                 id
               }
@@ -23,7 +23,7 @@ Rspec.describe Mutations::SignInUser, type: :request do
 
     post '/api/graphql', params: { query: query }
     expect(response).to be_successful
-    expect(json.dig('data','signinUser','token')).to be
+    expect(json.dig('data','signinUser','jwt')).to be
     expect(json.dig('data','signinUser','user','id')).to eq user.id.to_s
   end
 
@@ -38,7 +38,7 @@ Rspec.describe Mutations::SignInUser, type: :request do
                 password: "#{user.password}"
               }
             ) {
-              token
+              jwt
               user {
                 id
               }
@@ -62,7 +62,7 @@ Rspec.describe Mutations::SignInUser, type: :request do
                 password: "qwerty"
               }
             ) {
-              token
+              jwt
               user {
                 id
               }

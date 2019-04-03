@@ -2,7 +2,7 @@ module Mutations
   class CreateUser < GraphQL::Schema::Mutation
 
     class AuthProviderSignupData < Types::BaseInputObject
-      argument :email, Types::AuthProviderEmailInput, required: false
+      argument :email, Types::AuthInput, required: false
     end
 
     argument :name, String, required: true

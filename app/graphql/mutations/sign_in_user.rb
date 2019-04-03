@@ -2,10 +2,9 @@ module Mutations
   class SignInUser < GraphQL::Schema::Mutation
     null true
 
-    argument :email, Types::AuthProviderEmailInput, required: false
+    argument :email, Types::AuthInput, required: false
 
-    field :token, String, null: true
-    field :user, Types::UserType, null: true
+    type Types::AuthType
 
     def resolve(email: nil)
       # basic validation
@@ -17,9 +16,8 @@ module Mutations
       return unless user
       return unless user.authenticate(email[:password])
 
-      # auth_token = Knock::AuthToken.new payload: { sub: user.id }
-      #
-      # { user: user, token: auth_token.token }
+      token = OpenStruct.new(jwt: AuthToken.token(user), user: user)
+      context[:session][:token] = token
     end
   end
 end

@@ -1,5 +1,6 @@
 module Types
   class QueryType < BaseObject
+
     field :all_bills, [BillType], null: false
 
     def all_bills
