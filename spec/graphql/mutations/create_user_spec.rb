@@ -1,41 +1,21 @@
 require 'spec_helper'
 
-Rspec.describe Mutations::CreateUser, type: :request do
+describe Mutations::CreateUser do
+  def perform(args = {})
+    described_class.new(object: nil, context: {}).resolve(args)
+  end
 
   it 'creates a new user' do
-    query =
-        <<~GQL
-          mutation {
-            createUser(
-              name: "Test User",
-              authProvider: {
-                email: {
-                  email: "test@example.com",
-                  password: "123456"
-                }
-              }
-            ) {
-                id
-                name
-                email
-              }
-          }
-    GQL
+    result = perform(
+        name: 'Test User',
+        email: 'email@example.com',
+        password: 'password'
+    )
 
-    expected_response =
-        {
-            data: {
-              createUser: {
-                    id: "1",
-                    name: "Test User",
-                    email: "test@example.com"
-                }
-            }
-        }
+    user = result[:user]
 
-    post '/api/graphql', params: { query: query }
-    expect(response).to be_successful
-    expect(json).to include_json(expected_response)
-    expect(User.count).to eq 1
+    expect(user).to be_persisted
+    expect(user.name).to eq('Test User')
+    expect(user.email).to eq('email@example.com')
   end
 end

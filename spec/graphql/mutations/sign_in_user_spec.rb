@@ -1,77 +1,35 @@
-require 'spec_helper'
+require 'rails_helper'
 
-Rspec.describe Mutations::SignInUser, type: :request do
+describe Mutations::SignInUser do
   let!(:user) { create :user }
 
-  it 'signs in valid user' do
-    query =
-        <<~GQL
-          mutation {
-            signinUser(
-              email: {
-                email: "#{user.email}", 
-                password: "#{user.password}"
-              }
-            ) {
-              jwt
-              user {
-                id
-              }
-            }
-          }
-      GQL
-
-    post '/api/graphql', params: { query: query }
-    expect(response).to be_successful
-    expect(json.dig('data','signinUser','jwt')).to be
-    expect(json.dig('data','signinUser','user','id')).to eq user.id.to_s
+  def perform(args)
+    described_class.new(object: nil, context: {}).resolve(args)
   end
 
+  it 'creates a token' do
+    result = perform(
+        email: user.email,
+        password: user.password
+    )
 
-  it 'fails with invalid email' do
-    query =
-        <<~GQL
-          mutation {
-            signinUser(
-              email: {
-                email: "bill@bill.com", 
-                password: "#{user.password}"
-              }
-            ) {
-              jwt
-              user {
-                id
-              }
-            }
-          }
-    GQL
-
-    post '/api/graphql', params: { query: query }
-    expect(response).to be_successful
-    expect(json.dig('data','signinUser')).to be nil
+    expect(result).to be_present
+    expect(result[:token]).to be_present
+    expect(result[:user]).to eq(user)
   end
 
+  it 'handles no credentials' do
+    expect(perform(email: nil, password: nil)).to eq(
+      errors: [UserError.new('email or password is invalid')])
+  end
 
-  it 'fails with invalid password' do
-    query =
-        <<~GQL
-          mutation {
-            signinUser(
-              email: {
-                email: "#{user.email}", 
-                password: "qwerty"
-              }
-            ) {
-              jwt
-              user {
-                id
-              }
-            }
-          }
-    GQL
+  it 'handles wrong email' do
+    expect(perform(email: 'wrong', password: nil)).to eq(
+      errors: [UserError.new('email or password is invalid')])
+  end
 
-    post '/api/graphql', params: { query: query }
-    expect(response).to be_successful
-    expect(json.dig('data','signinUser')).to be nil
+  it 'handles wrong password' do
+    expect(perform(email: user.email, password: 'wrong')).to eq(
+      errors: [UserError.new('email or password is invalid')])
   end
 end
