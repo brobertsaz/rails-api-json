@@ -6,10 +6,12 @@ describe Types::AffiliationType do
       %w[
         id
         name
+        users
       ]
     )
   end
 
   it { expect(described_class.fields['id'].type.to_type_signature).to eq('ID!') }
   it { expect(described_class.fields['name'].type.to_type_signature).to eq('String!') }
+  it { expect(described_class.fields['users'].type.to_type_signature).to eq("[UserType!]!") }
 end

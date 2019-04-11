@@ -11,7 +11,7 @@ class Types::MemberType < GraphQL::Schema::Object
   field :middle_name, String, null: true
   field :last_name, String, null: true
   field :suffix, String, null: true
-  field :date_of_birth, String, null: true
+  field :date_of_birth, GraphQL::Types::ISO8601DateTime, null: true
   field :party, String, null: true
   field :leadership_role, String, null: true
   field :url, String, null: true
