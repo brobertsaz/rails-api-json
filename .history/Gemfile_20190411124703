@@ -21,6 +21,7 @@ gem 'sentry-raven'
 gem 'sidekiq'
 gem 'validate_url'
 
+
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'capybara'
@@ -37,6 +38,7 @@ end
 gem 'dotenv-rails', groups: [:development, :test, :production]
 
 group :development do
+  gem 'graphql-docs'
   gem 'graphiql-rails'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rspec-json_expectations'

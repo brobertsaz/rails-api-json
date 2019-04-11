@@ -29,8 +29,6 @@ class Types::BillType < GraphQL::Schema::Object
   field :downvote_percentage, Int, null: true
   field :upvote_percentage, Int, null: true
 
-  field :votes, [VoteType], null: true
-
   field :sponsors, [Types::MemberType], null: false
   field :sponsor, Types::MemberType, null: false
 
