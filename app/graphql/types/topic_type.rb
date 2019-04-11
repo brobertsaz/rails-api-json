@@ -5,4 +5,5 @@ class Types::TopicType < GraphQL::Schema::Object
 
   field :id, ID, null: false
   field :name, String, null: false
+  field :slug, String, null: false
 end
