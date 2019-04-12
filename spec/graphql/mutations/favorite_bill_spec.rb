@@ -14,7 +14,6 @@ describe Mutations::FavoriteBill do
     )
 
     bill = result[:bill]
-
     expect(bill.favorites.count).to eq 1
     expect(user.favorites.count).to eq 1
   end
@@ -27,7 +26,6 @@ describe Mutations::FavoriteBill do
     )
 
     bill = result[:bill]
-
     expect(bill.favorites.count).to eq 0
     expect(user.favorites.count).to eq 0
   end
