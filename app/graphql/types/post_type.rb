@@ -6,10 +6,10 @@ class Types::PostType < GraphQL::Schema::Object
   field :id, ID, null: false
 
   field :body, String, null: false
-  field :kind, PostKindEnumType, null: false
+  field :kind, Types::Enums::PostKindEnumType, null: false
   field :publish_at, GraphQL::Types::ISO8601DateTime, null: false
   field :source, String, null: false
-  field :state, Types::PostStateEnumType, null: false
+  field :state, Types::Enums::PostStateEnumType, null: false
   field :title, String, null: false
   field :topic, Types::TopicType, null: true
   field :url, String, null: true

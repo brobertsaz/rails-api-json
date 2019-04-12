@@ -12,7 +12,7 @@ class Types::MemberType < GraphQL::Schema::Object
   field :facebook, String, null: true
   field :fax, String, null: true
   field :first_name, String, null: true
-  field :gender, Types::GenderEnumType, null: false
+  field :gender, Types::Enums::GenderEnumType, null: false
   field :in_office, Boolean, null: false
   field :last_name, String, null: true
   field :leadership_role, String, null: true

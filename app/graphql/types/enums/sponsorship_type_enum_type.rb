@@ -1,5 +1,5 @@
 module Types
-  class SponsorshipTypeEnumType < Types::BaseEnum
+  class Enums::SponsorshipTypeEnumType < Types::BaseEnum
     description 'The type of sponsorship'
 
     value 'primary', 'Primary Sponsor'

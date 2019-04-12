@@ -1,5 +1,5 @@
 module Types
-  class VotePositionEnumType < Types::BaseEnum
+  class Enums::VotePositionEnumType < Types::BaseEnum
     description 'The vote position'
 
     value 'yes', 'Yes vote'

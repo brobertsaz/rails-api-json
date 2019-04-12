@@ -1,5 +1,5 @@
 module Types
-  class PostKindEnumType < Types::BaseEnum
+  class Enums::PostKindEnumType < Types::BaseEnum
     description 'The kind or type of a post'
 
     value 'post', 'Standard Post'

@@ -1,5 +1,5 @@
 module Types
-  class PostStateEnumType < Types::BaseEnum
+  class Enums::PostStateEnumType < Types::BaseEnum
     description 'The current state of a post'
 
     value 'draft', 'Draft state'

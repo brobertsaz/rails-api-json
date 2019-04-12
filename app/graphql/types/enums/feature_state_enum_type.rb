@@ -1,5 +1,5 @@
 module Types
-  class FeatureStateEnumType < Types::BaseEnum
+  class Enums::FeatureStateEnumType < Types::BaseEnum
     description 'Feature state of a bill'
 
     value 'unfeatured', 'Unfeatured state'
