@@ -42,7 +42,7 @@ describe Types::MemberType do
   it { expect(described_class.fields['facebook'].type.to_type_signature).to eq('String') }
   it { expect(described_class.fields['fax'].type.to_type_signature).to eq('String') }
   it { expect(described_class.fields['firstName'].type.to_type_signature).to eq('String') }
-  it { expect(described_class.fields['gender'].type.to_type_signature).to eq('GenderType!') }
+  it { expect(described_class.fields['gender'].type.to_type_signature).to eq('GenderEnum!') }
   it { expect(described_class.fields['inOffice'].type.to_type_signature).to eq('Boolean!') }
   it { expect(described_class.fields['lastName'].type.to_type_signature).to eq('String') }
   it { expect(described_class.fields['leadershipRole'].type.to_type_signature).to eq('String') }

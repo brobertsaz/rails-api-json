@@ -15,7 +15,7 @@ class Types::BillType < GraphQL::Schema::Object
   field :veteod_on, GraphQL::Types::ISO8601DateTime, null: true
   field :breakdown, String, null: true
   field :digging_deeper, String, null: true
-  field :feature_state, Int, null: true
+  field :feature_state, FeatureStateEnumType, null: true
   field :feature_position, Int, null: true
   field :house_result, String, null: true
   field :senate_result, String, null: true
@@ -29,7 +29,7 @@ class Types::BillType < GraphQL::Schema::Object
   field :downvote_percentage, Int, null: true
   field :upvote_percentage, Int, null: true
 
-  field :votes, [VoteType], null: true
+  field :votes, [Types::VoteType], null: true
 
   field :sponsors, [Types::MemberType], null: false
   field :sponsor, Types::MemberType, null: false

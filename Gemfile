@@ -37,6 +37,7 @@ end
 gem 'dotenv-rails', groups: [:development, :test, :production]
 
 group :development do
+  gem 'graphql-docs'
   gem 'graphiql-rails'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rspec-json_expectations'

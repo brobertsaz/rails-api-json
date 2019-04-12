@@ -26,6 +26,11 @@ describe Types::BillType do
         title
         topic
         veteodOn
+        downvotePercentage
+        sponsor
+        sponsors
+        upvotePercentage
+        votes
       ]
     )
   end
@@ -36,7 +41,7 @@ describe Types::BillType do
   it { expect(described_class.fields['diggingDeeper'].type.to_type_signature).to eq('String') }
   it { expect(described_class.fields['enactedOn'].type.to_type_signature).to eq('ISO8601DateTime') }
   it { expect(described_class.fields['featurePosition'].type.to_type_signature).to eq('Int') }
-  it { expect(described_class.fields['featureState'].type.to_type_signature).to eq('Int') }
+  it { expect(described_class.fields['featureState'].type.to_type_signature).to eq('FeatureStateEnum') }
   it { expect(described_class.fields['forLeft'].type.to_type_signature).to eq('String') }
   it { expect(described_class.fields['forRight'].type.to_type_signature).to eq('String') }
   it { expect(described_class.fields['fullTextUrl'].type.to_type_signature).to eq('String!') }

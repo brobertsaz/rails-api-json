@@ -14,6 +14,6 @@ describe Types::SponsorshipType do
 
   it { expect(described_class.fields['id'].type.to_type_signature).to eq('ID!') }
   it { expect(described_class.fields['bill'].type.to_type_signature).to eq('BillType') }
-  it { expect(described_class.fields['kind'].type.to_type_signature).to eq('Int!') }
+  it { expect(described_class.fields['kind'].type.to_type_signature).to eq('SponsorshipTypeEnum!') }
   it { expect(described_class.fields['member'].type.to_type_signature).to eq('MemberType') }
 end

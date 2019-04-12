@@ -4,7 +4,7 @@ class Types::SponsorshipType < GraphQL::Schema::Object
   graphql_name 'SponsorshipType'
 
   field :id, ID, null: false
-  field :kind, Int, null: false
-  field :bill_id, ID, null: true
-  field :member_id, ID, null: true
+  field :kind, Types::SponsorshipTypeEnumType, null: false
+  field :bill, Types::BillType, null: true
+  field :member, Types::MemberType, null: true
 end
