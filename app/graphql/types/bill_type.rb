@@ -30,9 +30,13 @@ class Types::BillType < GraphQL::Schema::Object
   field :upvote_percentage, Int, null: true
 
   field :votes, [Types::VoteType], null: true
-
   field :sponsors, [Types::MemberType], null: false
+  field :cosponsors, [Types::MemberType], null: false
   field :sponsor, Types::MemberType, null: false
+
+  def cosponsors
+    object.cosponsors.ordered
+  end
 
   def sponsors
     object.sponsors

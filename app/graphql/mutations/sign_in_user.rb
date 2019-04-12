@@ -18,7 +18,6 @@ module Mutations
         }
       end
 
-      # token = Knock::AuthToken.new(payload: { sub: user.id }).token
       token = OpenStruct.new(jwt: AuthToken.token(user), user: user)
 
       {

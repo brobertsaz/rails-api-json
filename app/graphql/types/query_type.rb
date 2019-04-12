@@ -15,32 +15,38 @@ module Types
       Bill.find(id)
     end
 
-    # field :all_members, [MemberType], null: false
+    field :all_members, [MemberType], null: false
 
-    # def all_members
-    #   Member.all
-    # end
+    def all_members
+      Member.all
+    end
 
-    # field :member, MemberType, null: false do
-    #   argument :id, ID, required: true
-    # end
+    field :member, MemberType, null: false do
+      argument :id, ID, required: true
+    end
 
-    # def member(id:)
-    #   Member.find(id)
-    # end
+    def member(id:)
+      Member.find(id)
+    end
 
-    # field :all_posts, [PostType], null: false
+    field :all_posts, [PostType], null: false
 
-    # def all_posts
-    #   Post.all
-    # end
+    def all_posts
+      Post.all
+    end
 
-    # field :post, PostType, null: false do
-    #   argument :id, ID, required: true
-    # end
+    field :post, PostType, null: false do
+      argument :id, ID, required: true
+    end
 
-    # def post(id:)
-    #   Post.find(id)
-    # end
+    def post(id:)
+      Post.find(id)
+    end
+
+    field :committee, CommitteeType, null: false
+
+    def committee(id:)
+      Committee.find(id)
+    end
   end
 end

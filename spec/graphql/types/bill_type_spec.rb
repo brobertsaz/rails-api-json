@@ -6,6 +6,7 @@ describe Types::BillType do
       %w[
         breakdown
         congress
+        cosponsors
         diggingDeeper
         enactedOn
         featurePosition
@@ -38,6 +39,7 @@ describe Types::BillType do
 
   it { expect(described_class.fields['breakdown'].type.to_type_signature).to eq('String') }
   it { expect(described_class.fields['congress'].type.to_type_signature).to eq('CongressType!') }
+  it { expect(described_class.fields['cosponsors'].type.to_type_signature).to eq('[MemberType!]!') }
   it { expect(described_class.fields['diggingDeeper'].type.to_type_signature).to eq('String') }
   it { expect(described_class.fields['enactedOn'].type.to_type_signature).to eq('ISO8601DateTime') }
   it { expect(described_class.fields['featurePosition'].type.to_type_signature).to eq('Int') }
