@@ -45,7 +45,7 @@ module Types
       argument :user_id, ID, required: true
       argument :filter, String, required: false
     end
-    
+
     def members(user_id:, filter:)
       user = User.find(user_id)
       if filter == 'following'
