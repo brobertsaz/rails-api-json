@@ -14,7 +14,7 @@ Rspec.describe Types::BillType, type: :request do
           }
       GQL
 
-    post '/api/graphql', params: { query: query }
+    post '/graphql', params: { query: query }
     expect(response).to be_successful
     data = json.dig('data', 'allBills')
     expect(data.count).to eq 5
@@ -33,7 +33,7 @@ Rspec.describe Types::BillType, type: :request do
           }
       GQL
 
-    post '/api/graphql', params: { query: query }
+    post '/graphql', params: { query: query }
     expect(response).to be_successful
     data = json.dig('data', 'featuredBills')
     expect(data.count).to eq Bill.special.count
@@ -52,7 +52,7 @@ Rspec.describe Types::BillType, type: :request do
           }
       GQL
 
-    post '/api/graphql', params: { query: query }
+    post '/graphql', params: { query: query }
     expect(response).to be_successful
     data = json.dig('data', 'bill')
     expect(data['id']).to eq Bill.first.id.to_s

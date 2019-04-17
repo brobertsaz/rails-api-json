@@ -19,7 +19,7 @@ Rspec.describe Mutations::SignInUser, type: :request do
           }
       GQL
 
-    post '/api/graphql', params: { query: query }
+    post '/graphql', params: { query: query }
     expect(json.dig('data', 'signinUser', 'token')).to be
     expect(json.dig('data', 'signinUser', 'errors')).to eq []
   end
@@ -41,7 +41,7 @@ Rspec.describe Mutations::SignInUser, type: :request do
           }
       GQL
 
-    post '/api/graphql', params: { query: query }
+    post '/graphql', params: { query: query }
     expect(json.dig('data', 'signinUser', 'token')).to be nil
     expect(json.dig('data', 'signinUser', 'errors').count).to eq 1
     expect(json.dig('data', 'signinUser', 'errors').first["message"]).to eq "email or password is invalid"
@@ -63,7 +63,7 @@ Rspec.describe Mutations::SignInUser, type: :request do
           }
     GQL
 
-    post '/api/graphql', params: { query: query }
+    post '/graphql', params: { query: query }
     expect(json.dig('data', 'signinUser', 'token')).to be nil
     expect(json.dig('data', 'signinUser', 'errors').count).to eq 1
     expect(json.dig('data', 'signinUser', 'errors').first["message"]).to eq "email or password is invalid"

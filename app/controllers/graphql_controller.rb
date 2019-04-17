@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::GraphqlController < ApplicationController
+class GraphqlController < ApplicationController
   def execute
     variables = ensure_hash(params[:variables])
     query = params[:query]
