@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.0'
+ruby '2.6.2'
 
 gem 'activestorage-validator'
 gem 'bcrypt', '~> 3.1.7'
@@ -13,10 +13,12 @@ gem 'jwt'
 gem 'knock'
 gem 'mini_magick', '~> 4.8'
 gem 'pg', '>= 0.18', '< 2.0'
+gem 'pg_search'
 gem 'rack-cors'
 gem 'rails', '~> 5.2.2'
-gem 'ransack'
+# gem 'ransack'
 gem 'redis', '~> 4.0'
+# gem 'searchkick'
 gem 'sentry-raven'
 gem 'sidekiq'
 gem 'validate_url'

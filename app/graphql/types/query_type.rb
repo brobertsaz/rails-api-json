@@ -1,13 +1,14 @@
 module Types
   class QueryType < BaseObject
 
-    field :all_bills, [BillType], null: false
+    # Bills
+    field :all_bills, BillType.connection_type, null: false
 
     def all_bills
       Bill.visible
     end
 
-    field :featured_bills, [BillType], null: false
+    field :featured_bills, BillType.connection_type, null: false
 
     def featured_bills
       Bill.special.order('feature_position asc')
@@ -17,7 +18,11 @@ module Types
       argument :id, ID, required: true
     end
 
-    field :bills, [BillType], null: false do
+    def bill(id:)
+      Bill.find(id)
+    end
+
+    field :bills, BillType.connection_type, null: false do
       argument :user_id, ID, required: true
       argument :filter, String, required: false
     end
@@ -31,10 +36,15 @@ module Types
       end
     end
 
-    def bill(id:)
-      Bill.find(id)
+    field :search_bills, BillType.connection_type, null: false do
+      argument :term, String, required: true
     end
 
+    def search_bills(term:)
+      Bill.search term
+    end
+
+    # Members
     field :all_members, [MemberType], null: false
 
     def all_members
@@ -65,6 +75,7 @@ module Types
       Member.find(id)
     end
 
+    # Posts
     field :all_posts, [PostType], null: false
 
     def all_posts
@@ -97,6 +108,7 @@ module Types
       Post.find(id)
     end
 
+    # Committees
     field :committee, CommitteeType, null: false
 
     def committee(id:)

@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Bill < ApplicationRecord # rubocop:disable Metrics/ClassLength
+  include PgSearch
+  pg_search_scope :search, 
+                  against: %i[title number breakdown summary], 
+                  using: { tsearch: { prefix: true } }
   # Gems
   include SyncCache
   has_one_attached :banner

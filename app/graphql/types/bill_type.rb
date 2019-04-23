@@ -6,7 +6,7 @@ class Types::BillType < GraphQL::Schema::Object
   field :id, ID, null: false
   field :title, String, null: false
   field :number, String, null: false
-  field :summary, String, null: false
+  field :summary, String, null: true
   field :full_text_url, String, null: false
   field :introduced_on, GraphQL::Types::ISO8601DateTime, null: true
   field :house_voted_on, GraphQL::Types::ISO8601DateTime, null: true

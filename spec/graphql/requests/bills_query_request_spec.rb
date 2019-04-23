@@ -1,45 +1,50 @@
 require 'spec_helper'
 
 Rspec.describe Types::BillType, type: :request do
-  let!(:bills) { create_list :bill, 5 }
+  let(:user) { create :user }
+  let!(:bills) { create_list :bill, 4 }
+  let!(:bill) { create :bill, summary: "drugs", feature_state: 'featured' }
 
   it 'gets list of all_bills' do
     query =
       <<~GQL
           query {
             allBills {
-              id
-              number
+              edges {
+                node {
+                  id
+                  title
+                }
+              }
             }
           }
       GQL
 
     post '/graphql', params: { query: query }
-    expect(response).to be_successful
-    data = json.dig('data', 'allBills')
+    data = json.dig('data', 'allBills', 'edges')
     expect(data.count).to eq 5
   end
 
   it 'gets featured_bills' do
-    Bill.last.update(feature_state: 'featured')
-
     query =
       <<~GQL
           query {
             featuredBills {
-              id
-              number
+              edges {
+                node {
+                  id
+                  title
+                }
+              }
             }
           }
       GQL
 
     post '/graphql', params: { query: query }
-    expect(response).to be_successful
-    data = json.dig('data', 'featuredBills')
+    data = json.dig('data', 'featuredBills', 'edges')
     expect(data.count).to eq Bill.special.count
   end
 
-  it 'gets bills'
 
   it 'gets a bill' do
     query =
@@ -53,10 +58,96 @@ Rspec.describe Types::BillType, type: :request do
       GQL
 
     post '/graphql', params: { query: query }
-    expect(response).to be_successful
     data = json.dig('data', 'bill')
     expect(data['id']).to eq Bill.first.id.to_s
     expect(data['number']).to eq Bill.first.number
   end
 
+
+  it 'gets filtered bills' do
+    user.favorites.create(favoritable: bills.last)
+    query =
+        <<~GQL
+          query {
+            bills (userId: #{user.id}, filter: "following") {
+              edges {
+                node {
+                  id
+                  number
+                  title
+                }
+              }
+            }
+          }
+    GQL
+
+    post '/graphql', params: { query: query }
+    data = json.dig('data', 'bills', 'edges')
+    expect(data.count).to eq 1
+    expect(data.first['node']['number']).to eq bills.last.number
+  end
+
+  it 'gets unfiltered bills' do
+    query =
+        <<~GQL
+          query {
+            bills (userId: #{user.id}, filter: "test") {
+              edges {
+                node {
+                  id
+                  title
+                }
+              }
+            }
+          }
+    GQL
+
+    post '/graphql', params: { query: query }
+    data = json.dig('data', 'bills', 'edges')
+    expect(data.count).to eq 5
+  end
+
+  it 'searches bills' do
+    query =
+        <<~GQL
+          query {
+            searchBills (term: "drugs") {
+              edges {
+                node {
+                  id
+                  number
+                  title
+                }
+              }
+            }
+          }
+    GQL
+
+    post '/graphql', params: { query: query }
+    data = json.dig('data', 'searchBills', 'edges')
+    expect(data.count).to eq 1
+    expect(data.first['node']['number']).to eq bill.number
+  end
+
+  it 'searches bills partial text' do
+    query =
+        <<~GQL
+          query {
+            searchBills (term: "drug") {
+              edges {
+                node {
+                  id
+                  title
+                  number
+                }
+              }
+            }
+          }
+    GQL
+
+    post '/graphql', params: { query: query }
+    data = json.dig('data', 'searchBills', 'edges')
+    expect(data.count).to eq 1
+    expect(data.first['node']['number']).to eq bill.number
+  end
 end

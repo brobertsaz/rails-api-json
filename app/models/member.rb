@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Member < ApplicationRecord
+  include PgSearch
+  pg_search_scope :search, 
+                  against: %i[name leadership_role], 
+                  using: { tsearch: { prefix: true } }
   # Gems
   has_one_attached :photo
   # has_attached_file :photo, styles: { medium: '400x', thumb: '200x', square: '200x200#' }

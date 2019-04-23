@@ -55,7 +55,7 @@ describe Types::BillType do
   it { expect(described_class.fields['senateResult'].type.to_type_signature).to eq('String') }
   it { expect(described_class.fields['senateVotedOn'].type.to_type_signature).to eq('ISO8601DateTime') }
   it { expect(described_class.fields['slug'].type.to_type_signature).to eq('String!') }
-  it { expect(described_class.fields['summary'].type.to_type_signature).to eq('String!') }
+  it { expect(described_class.fields['summary'].type.to_type_signature).to eq('String') }
   it { expect(described_class.fields['title'].type.to_type_signature).to eq('String!') }
   it { expect(described_class.fields['topic'].type.to_type_signature).to eq('TopicType') }
   it { expect(described_class.fields['veteodOn'].type.to_type_signature).to eq('ISO8601DateTime') }

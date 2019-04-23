@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 class Post < ApplicationRecord
+  include PgSearch
+  pg_search_scope :search, 
+                  against: %i[body title], 
+                  using: { tsearch: { prefix: true } }
+
   # Gems
   has_one_attached :image
   # has_attached_file :image, styles: { square: '300x300#' }
