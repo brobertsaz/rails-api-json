@@ -19,7 +19,7 @@ module Types
     end
 
     def bill(id:)
-      Bill.find(id)
+      RecordLoader.for(Bill).load(id)
     end
 
     field :bills, BillType.connection_type, null: false do
@@ -72,7 +72,7 @@ module Types
     end
 
     def member(id:)
-      Member.find(id)
+      RecordLoader.for(Member).load(id)
     end
 
     # Posts
@@ -105,14 +105,14 @@ module Types
     end
 
     def post(id:)
-      Post.find(id)
+      RecordLoader.for(Post).load(id)
     end
 
     # Committees
     field :committee, CommitteeType, null: false
 
     def committee(id:)
-      Committee.find(id)
+      RecordLoader.for(Committee).load(id)
     end
   end
 end

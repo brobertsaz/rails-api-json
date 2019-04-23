@@ -303,6 +303,7 @@ DEPENDENCIES
   fast_jsonapi
   graphiql-rails
   graphql (= 1.8.13)
+  graphql-batch
   graphql-docs
   graphql-preload (~> 1.0.4)
   jazz_fingers
