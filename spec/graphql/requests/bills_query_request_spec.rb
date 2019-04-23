@@ -150,4 +150,25 @@ Rspec.describe Types::BillType, type: :request do
     expect(data.count).to eq 1
     expect(data.first['node']['number']).to eq bill.number
   end
+
+  it 'paginates bills' do
+    query =
+        <<~GQL
+          query {
+            allBills (first: 3) {
+              edges {
+                node {
+                  id
+                  title
+                  number
+                }
+              }
+            }
+          }
+    GQL
+
+    post '/graphql', params: { query: query }
+    data = json.dig('data', 'allBills', 'edges')
+    expect(data.count).to eq 3
+  end
 end
