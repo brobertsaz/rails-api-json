@@ -156,6 +156,12 @@ Rspec.describe Types::BillType, type: :request do
         <<~GQL
           query {
             allBills (first: 3) {
+              pageInfo {
+                endCursor
+                startCursor
+                hasPreviousPage
+                hasNextPage
+              }
               edges {
                 node {
                   id
@@ -170,5 +176,6 @@ Rspec.describe Types::BillType, type: :request do
     post '/graphql', params: { query: query }
     data = json.dig('data', 'allBills', 'edges')
     expect(data.count).to eq 3
+    expect(json.dig('data', 'allBills', 'pageInfo', 'hasNextPage')).to be true
   end
 end
