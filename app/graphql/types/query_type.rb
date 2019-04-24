@@ -45,13 +45,13 @@ module Types
     end
 
     # Members
-    field :all_members, [MemberType], null: false
+    field :all_members, MemberType.connection_type, null: false
 
     def all_members
       Member.ordered.in_office
     end
 
-    field :members, [MemberType], null: false do
+    field :members, MemberType.connection_type, null: false do
       argument :user_id, ID, required: true
       argument :filter, String, required: false
     end
@@ -76,7 +76,7 @@ module Types
     end
 
     # Posts
-    field :all_posts, [PostType], null: false
+    field :all_posts, PostType.connection_type, null: false
 
     def all_posts
       Post.all
